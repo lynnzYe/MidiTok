@@ -2194,7 +2194,13 @@ class MIDITokenizer(ABC):
                 else self.__vocab_base_inv
             )
         if item not in voc:
-            return -999  # instead of raising an exception, assign a dummy token
+            if "TimeSig" in item:
+                numerator, denominator = map(int, item.split('_')[-1].split('/'))
+                return numerator * 10000 + denominator
+            elif 'Position' in item:
+                return int(item.split('_')[-1]) * 1000
+            else:
+                return -999
         return voc[item]
 
     def __eq__(self, other) -> bool:
