@@ -2193,6 +2193,8 @@ class MIDITokenizer(ABC):
                 if self.is_multi_voc
                 else self.__vocab_base_inv
             )
+        if item not in voc:
+            return -999  # instead of raising an exception, assign a dummy token
         return voc[item]
 
     def __eq__(self, other) -> bool:
